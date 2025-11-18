@@ -28,7 +28,11 @@ Existem diversas razões pelas quais isso é interessante e importante:
         independente na protoboard você aprenderá na prática a função de
         diversos componentes essenciais como o cristal oscilador, a regulação de
         tensão para a alimentação do microcontrolador e a montagem do circuito
-        de reset.
+        de reset. Além disso você entenderá de verdade o que o microcontrolador
+        precisa obrigatoriamente para funcionar (alimentação estável, clock,
+        reset em nível definido, capacitores de desacoplamento, etc.) e o que é
+        opcional e fornecido pelo Arduino apenas como um ``conforto'' para o
+        usuário (conversor USB-Serial, LEDs, etc.).
   \item \textbf{Eficiência energética}: a placa do Arduino possui componentes
         que constantemente consomem energia (LEDs, conversor USB-Serial) mesmo
         que seu código não esteja fazendo nada. Ao eliminar todos os componentes
@@ -47,14 +51,67 @@ Existem diversas razões pelas quais isso é interessante e importante:
   \item \textbf{Transição para o produto final}: nenhum produto final acabado
         tem um Arduino colado dentro dele. Produtos reais utilizam apenas o
         microcontrolador e os demais componentes eletrônicos soldados em uma
-        placa de circuito impressa (PCB\footnote{Do inglês: ``\ingles{Printed
-        Circuit Board}''.}) fabricada profissionalmente. Aprender a montar um
+        placa de circuito impressa (PCB\footnote{\ingles{Printed Circuit
+        Board} (PCB).}) fabricada profissionalmente. Aprender a montar um
         Arduino Standalone é um passo intermediário obrigatório para que, no
-        futuro, você aprenda a projetar suas próprias PCB profissionais.
+        futuro, você aprenda a projetar suas próprias PCB profissionais. Você
+        entenderá na prática a diferença entre uma placa de desenvolvimento e a
+        versão de produção final.
   \item \textbf{Flexibilidade}: ao usar o microcontrolador independente você não
         fica preso aos \qty{5.0}{\volt} e \qty{16}{\mega\hertz} do Arduino:
         você pode rodar o chip em \qty{3.3}{\volt} e se comunicar com sensores
         modernos sem conversores de nível, ou pode usar o clock interno de
         \qty{8}{\mega\hertz} do microcontrolador e liberar mais dois pinos
         digitais extras para uso.
+  \item \textbf{Entendimento do datasheet}: para entender certas funções mais
+        avançadas do microcontrolador você será forçado a ler o datasheet e
+        procurar coisas como os tipos de clock possíveis, configuração de fuses
+        e a organização dos pinos.
+  \item \textbf{Liberdade de forma e conectores}: ao usar o Arduino você é
+        obrigado a utilizar os conectores pin header fêmea que, apesar de bons
+        para prototipagem, são ruins para o produto final (não oferecem fixação
+        segura dos fios jumper). Com o microcontrolador independente você é quem
+        decide qual o tamanho e o formato da placa final, e quais serão os
+        conectores mais adequados para seu produto (bornes de parafuso,
+        conectores Molex e outros).
+  \item \textbf{Exercício de engenharia}: montar um Arduino Standalone lhe
+        proporcionará um exercício de engenharia de sistemas embarcados
+        completo pois você precisará montar e/ou entender a parte elétrica
+        (fonte, reguladores, capacitores, proteções), a parte digital (clock,
+        reset, sinais de entrada/saída, interface com sensores e atuadores), o
+        firmware (fuses, bootloader, programação ISP\footnote{%
+        \ingles{In-System Programming} (ISP), também chamado por
+        \ingles{In-Circuit Serial Programming} (ICSP).}, debug), documentação
+        (projeto esquemática, projeto da PCB) e fabricação do seu produto final.
 \end{itemize}
+
+Em resumo, ao montar seu próprio Arduino Standalone você estará dando seus
+primeiros passos para se tornar um verdadeiro engenheiro de sistemas
+embarcados. Obviamente esse é um objetivo ambicioso demais para ser tratado em
+uma pequena série de artigos como esta, então resolvi me limitar aqui aos
+aspectos básicos e mais simples de criar um Arduino Standalone na esperança de
+que munido desta base você seja capaz de aprender cada vez mais sobre sistemas
+embarcados e o fantástico mundo dos microcontroladores.
+
+Neste primeiro artigo faremos a montagem básica do Arduino Standalone, ou seja,
+a montagem inicial do microcontrolador na PCB, incluindo a fonte de alimentação,
+o circuito de reset, e o circuito de clock externo. Meu objetivo é que este
+artigo seja um tutorial completo e detalhado o suficiente para você montar seu
+microcontrolador independente de forma segura\footnote{Este artigo é, na
+verdade, o tutorial que eu queria ter tido acesso quando eu tentei montar um
+Arduino Standalone pela primeira vez.}. Alguns pressupostos que estou assumindo:
+
+\begin{itemize}
+  \item Montaremos um Arduino Standalone usando o microcontrolador Microchip
+        ATmega328P-PU, que é o utilizado no Arduino Uno.
+  \item Utilizaremos como fonte de alimentação uma bateria ou fonte de
+        \qty{9}{\volt}, conectada diretamente à protoboard.
+  \item Nossa montagem será a mais fiel possível ao Arduino Uno\footnote{Este
+        item parece um contra-senso pois acabamos de citar todas as vantagens de
+        abandonar o Arduino e usar o microcontrolador independente. Sim, isso é
+        meio que um contra-senso mesmo, mas estou partindo do pressuposto que
+        você está montando seu primeiro Arduino Standalone e manter a
+        arquitetura o mais próxima possível do Arduino, nesse momento,
+        facilitará sua aprendizagem.}.
+\end{itemize}
+  

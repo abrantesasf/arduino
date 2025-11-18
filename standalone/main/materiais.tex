@@ -1,0 +1,76 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Materiais}
+\label{sec:materiais}
+
+Nosso Arduino Standalone terá, na protoboard, os seguintes grandes componentes:
+
+\begin{enumerate}
+  \item \textbf{Alimentação}: usaremos uma bateria ou fonte de alimentação de
+        \qty{9}{\volt} mas o ATmega328P suporta, no máximo
+        \qty{5.5}{\volt}. Precisaremos então de um circuito regulador de tensão
+        que receba os \qty{9}{\volt} e entregue \qty{5}{\volt} para o
+        microcontrolador.
+  \item \textbf{Microcontrolador}: é o ATmega328P em si. Você pode remover o
+        microprocessador do Arduino, ou comprar um novo.
+  \item \textbf{Clock externo}: usaremos um circuito de clock externo de
+        \qty{16}{\mega\hertz} com um cristal oscilador.
+  \item \textbf{Circuito de reset}: um botão na protoboard permitirá que o
+        microcontrolador seja reiniciado rapidamente, sem a necessidade de
+        desconectar a fonte de energia.
+\end{enumerate}
+
+A organização desses grandes componentes na protoboard será aproximadamente a
+exibida na figura~\ref{fig:orgnizacao_componentes}, a seguir:
+
+\begin{figure}[H]
+\centering
+\caption{Organização geral dos componentes}
+\label{fig:orgnizacao_componentes}
+\vspace{-0.2cm}
+%\fbox{
+  \includegraphics[scale=0.18]{imagens/protoboard3.jpg}
+%}\
+%\footnotesize{Fonte: xxx}
+\end{figure}
+
+Os materiais e componentes necessários são os seguintes:
+
+\begin{itemize}
+  \item \textbf{Alimentação}: a lista a seguir e a
+        figura~\ref{fig:comp-alimentacao} mostram os componentes que
+        utilizaremos para a alimentação do microcontrolador. Alguns itens são
+        opcionais mas recomendados neste estágio inicial de seu aprendizado.
+        \begin{itemize}[noitemsep]
+          \item 1 regulador linear de tensão L7805CV
+                % www.newark.com/stmicroelectronics/l7805cv/ldo-fixed-5v-1-5a-0-to-125deg/dp/26M0575
+          \item 1 diodo 1N4007
+                % www.newark.com/multicomp-pro/1n4007/diode-standard-recovery-1a-1kv/dp/65W8781
+          \item 2 capacitores eletrolíticos de \qty{47}{\micro\farad}
+                % newark.com/chemi-con/esmg500ell470mf11d/aluminum-electrolytic-capacitor/dp/23K5056
+          \item 2 capacitores cerâmicos de \qty{100}{\nano\farad}
+                % ???
+          \item 1 LED vermelho de \qty{5}{\mm} (opcional, apenas para indicar
+                que a protoboard está energizada)
+                % www.newark.com/cree-led/c503b-rcn-cx0y0aa1/led-round-5mm-red-5-1cd-624nm/dp/08R2995
+          \item 1 resistor de \qty{680}{\ohm} (opcional, apenas para indicar que
+                a protoboard está energizada)
+                % www.newark.com/multicomp-pro/mf50-680r/metal-film-resistor-680-ohm-500mw/dp/38K5245
+          \item 1 conector borne de duas vias
+                % www.newark.com/lumberg/kre-03/wire-to-board-terminal-block-3/dp/25M9958
+          \item 1 clip para bateria de \qty{9}{\volt} e 1 bateria de \qty{9}{\volt}
+                % www.newark.com/keystone/233/battery-strap-9v-wire-lead/dp/22C4351
+                % www.newark.com/energizer/522bp-2/alkaline-zn-mno2-battery-9v/dp/17C5580
+          \item 1 fonte de alimentação de \qty{9}{\volt} (\qty{1}{\ampere})
+                (opcional: se você não quiser utilizar a bateria pode utilizar
+                uma fonte como alimentação)
+                % www.newark.com/pro-elec/28-19355/9vdc-1a-regulated-ac-power-adapter/dp/62X7077
+          \begin{figure}[H]
+          \centering
+          \caption{Componentes para a alimentação}
+          \label{fig:comp-alimentacao}
+          \vspace{-0.2cm}
+            \includegraphics[scale=0.7]{imagens/alimentacao.jpeg}
+          %\footnotesize{Fonte: xxx}
+          \end{figure}
+        \end{itemize}
+\end{itemize}
