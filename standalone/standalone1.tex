@@ -1,0 +1,95 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arduino Standalone I
+% Por: Abrantes Araújo Silva Filho
+%      abrantesasf@computacaoraiz.com.br
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Classe do documento
+\documentclass[12pt]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Preâmbulo com todas as outras outras chamadas para todos os outros packages
+%%% e o que mais for necessário
+\input{utils/preambulo.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Ajuste do layout, espaçamento de linhas e etc.:
+\geometry{a4paper, portrait}
+%\onehalfspacing
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Configurações para as propriedades do PDF:
+\hypersetup{
+   %hidelinks,           % Comente para web, descomente para impressão
+   colorlinks=true,      % True para web, False para impressão
+   pdftitle={Arduino Standalone: I},
+   pdfauthor={Abrantes Araújo Silva Filho},
+   pdfsubject={Montagem de Arduino em protoboard},
+   pdfkeywords={arduino, atmega328, protoboard},
+   pdfinfo={
+      CreationDate={}, % Ex.: D:AAAAMMDDHH24MISS
+      ModDate={}       % Ex.: D:AAAAMMDDHH24MISS
+   }
+}
+\input{utils/pdfconfig}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Compilação condicional de seções
+%\includeonly{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Começa o documento
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Front matter
+
+% Bookmark para a capa do artigo
+\pdfbookmark[1]{Início}{titulo}
+
+% Título (se necessário um subtítulo, usar quebra de linha e o tamanho large):
+\title{\textbf{Arduino Standalone: I}}
+%\bookmark[dest=titulo,level=chapter]{Title Page}
+
+% Autor e data:
+\author{Abrantes Araújo Silva Filho}
+\date{2025-11-18}
+
+% Gera os títulos:
+\maketitle
+
+% Abstract:
+%\renewcommand{\abstractname}{\textbf{LEIA COM ATENÇÃO!}}
+\abstract{\noindent Este é o primeiro de uma série de artigos que discute e
+mostra, em detalhes, como montar um Arduino Standalone, ou seja, um Arduino
+montado apenas em uma protoboard. Neste artigo aprenderemos a fazer a montagem
+da fonte de alimentação, do microcontrolador e de outros componentes
+fundamentais, como o cristal oscilador. Em outros artigos desta série
+discutiremos as opções disponíveis para a programação do microcontrolador
+diretamente na protoboard.}
+
+% Sumário:
+\pdfbookmark[1]{Sumário}{sumario}
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Main matter
+\newpage
+\input{main/placeholder}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Apêndices
+%\appendix
+%\input{apend/placeholder}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Back matter
+%\bibliography{utils/biblioteca}
+%\printindex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Termina o documento
+\end{document}
+
