@@ -1,0 +1,60 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introdução}
+\label{sec:intro}
+
+Depois de algum tempo utilizando o Arduino e ganhando experiência em diversos
+projetos interessantes com sensores e atuadores, você começa a sentir
+necessidade de entender realmente como essa placa funciona e como o
+microcontrolador realiza a mágica de transformar o código de seu programa em
+ações no mundo real.
+
+Montar um ``Arduino Standalone'' (usar apenas o microcontrolador --- geralmente
+o ATmega328P --- na protoboard sem a placa do Arduino) é um verdadeiro
+\textbf{rito de passagem} no aprendizado de eletrônica, programação e sistemas
+embarcados: é o momento em que você deixa de ser apenas um usuário do Arduino
+para entender como a engenharia por trás dele funciona.
+
+Pense no Arduino como uma bicicleta com rodinhas de treinamento: você consegue
+fazer muitas coisas legais e interessantes mas chega um momento em que, para
+avançar, as rodinhas de treinamento precisam ser removidas. Montar seu primeiro
+Arduino Standalone equivale à seu primeiro passeio de bicicleta sem as rodinhas
+de treinamento.
+
+Existem diversas razões pelas quais isso é interessante e importante:
+
+\begin{itemize}
+  \item \textbf{Desmistificação do hardware}: quando usamos o Arduino, muitas
+        coisas estão pré-configuradas e ocultas para nós. Ao montar o circuito
+        independente na protoboard você aprenderá na prática a função de
+        diversos componentes essenciais como o cristal oscilador, a regulação de
+        tensão para a alimentação do microcontrolador e a montagem do circuito
+        de reset.
+  \item \textbf{Eficiência energética}: a placa do Arduino possui componentes
+        que constantemente consomem energia (LEDs, conversor USB-Serial) mesmo
+        que seu código não esteja fazendo nada. Ao eliminar todos os componentes
+        não essenciais e configurar corretamente o microcontrolador (usando o
+        modo de \ingles{sleep}) você pode fazer seu Arduino Standalone funcionar
+        por vários meses usando apenas duas pilhas AA (um Arduino completo
+        acabaria com as pilhas em alguns dias).
+  \item \textbf{Custo e permanência}: imagine que você criou um pequeno sistema
+        de automação para o portão da garagem de sua casa. Você deixaria seu
+        Arduino preso lá no portão para sempre? Correndo o risco de um fio se
+        desconectar com o tempo? Você vai perder uma placa relativamente cara e
+        que tem diversas outras possibilidades de usos além do portão?
+        Provavelmente não. O melhor é que você utilize apenas o microcontrolador
+        e os componentes básicos para fazer seu sistema de automação funcionar
+        e, ao montar o Arduino Standalone, você aprenderá a como fazer isso.
+  \item \textbf{Transição para o produto final}: nenhum produto final acabado
+        tem um Arduino colado dentro dele. Produtos reais utilizam apenas o
+        microcontrolador e os demais componentes eletrônicos soldados em uma
+        placa de circuito impressa (PCB\footnote{Do inglês: ``\ingles{Printed
+        Circuit Board}''.}) fabricada profissionalmente. Aprender a montar um
+        Arduino Standalone é um passo intermediário obrigatório para que, no
+        futuro, você aprenda a projetar suas próprias PCB profissionais.
+  \item \textbf{Flexibilidade}: ao usar o microcontrolador independente você não
+        fica preso aos \qty{5.0}{\volt} e \qty{16}{\mega\hertz} do Arduino:
+        você pode rodar o chip em \qty{3.3}{\volt} e se comunicar com sensores
+        modernos sem conversores de nível, ou pode usar o clock interno de
+        \qty{8}{\mega\hertz} do microcontrolador e liberar mais dois pinos
+        digitais extras para uso.
+\end{itemize}
