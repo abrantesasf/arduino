@@ -60,17 +60,78 @@ Os materiais e componentes necessários são os seguintes:
           \item 1 clip para bateria de \qty{9}{\volt} e 1 bateria de \qty{9}{\volt}
                 % www.newark.com/keystone/233/battery-strap-9v-wire-lead/dp/22C4351
                 % www.newark.com/energizer/522bp-2/alkaline-zn-mno2-battery-9v/dp/17C5580
-          \item 1 fonte de alimentação de \qty{9}{\volt} (\qty{1}{\ampere})
-                (opcional: se você não quiser utilizar a bateria pode utilizar
-                uma fonte como alimentação)
-                % www.newark.com/pro-elec/28-19355/9vdc-1a-regulated-ac-power-adapter/dp/62X7077
           \begin{figure}[H]
           \centering
           \caption{Componentes para a alimentação}
           \label{fig:comp-alimentacao}
           \vspace{-0.2cm}
-            \includegraphics[scale=0.7]{imagens/alimentacao.jpeg}
+            \includegraphics[scale=0.9]{imagens/alimentacao.jpeg}
           %\footnotesize{Fonte: xxx}
           \end{figure}
         \end{itemize}
+        Se você não quiser usar uma bateria, pode utilizar uma fonte de
+        alimentação de \qty{9}{\volt} (\qty{1}{\ampere})\footnote{Estou usando
+        uma fonte que fornece corrente de até \qty{1}{\ampere}, mas você pode
+        utilizar qualquer outra fonte de \qty{9}{\volt} que tiver disponível.},
+        com um adaptador com borne de duas vias conforme a
+        figura~\ref{fig:fonte9v} (na página~\pageref{fig:fonte9v}), para
+        conectar a fonte à protoboard.
+        % www.newark.com/pro-elec/28-19355/9vdc-1a-regulated-ac-power-adapter/dp/62X7077
+        Para mantermos nosso Arduino Standalone o mais portátil possível
+        usaremos uma bateria comum mesmo.
+        \begin{figure}[H]
+        \centering
+        \caption{Alternativa para alimentação}
+        \label{fig:fonte9v}
+        \vspace{-0.2cm}
+        \includegraphics[scale=0.7]{imagens/alimentacao2.jpeg}
+        %\footnotesize{Fonte: xxx}
+        \end{figure}
+  \item \textbf{Microcontrolador}: precisaremos dos materiais ilustrados na
+        lista abaixo e na figura~\ref{fig:atmega328p} a seguir:
+        \begin{itemize}
+          \item 1 microcontrolador ATmega328P-PU (você pode retirar,
+                com muito cuidado, o microcontrolador de sua placa Arduino
+                atual, ou comprar um novo microcontrolador)
+          \item 1 indutor axial de \qty{10}{\micro\henry}
+          \item 3 capacitores cerâmicos de \qty{100}{\nano\farad}
+        \begin{figure}[H]
+        \centering
+        \caption{ATmega328P-PU}
+        \label{fig:atmega328p}
+        \vspace{-0.2cm}
+        \includegraphics[scale=0.9]{imagens/microcontrolador.jpeg}
+        %\footnotesize{Fonte: xxx}
+        \end{figure}
+        \end{itemize}
+  \item \textbf{Clock}: para montar o circuito de clock precisamos dos materiais
+        a seguir (ilustrados na Figura~\ref{fig:clock}):
+        \begin{itemize}[noitemsep]
+          \item 1 cristal oscilador de \qty{16}{\mega\hertz}
+          \item 2 capacitores cerâmicos de \qty{22}{\pico\farad}
+          \item 1 resistor de \qty{1}{\mega\ohm}
+        \end{itemize}
+        \begin{figure}[H]
+        \centering
+        \caption{Clock externo}
+        \label{fig:clock}
+        \vspace{-0.2cm}
+        \includegraphics[scale=1.0]{imagens/clock.jpeg}
+        %\footnotesize{Fonte: xxx}
+        \end{figure}
 \end{itemize}
+
+Além dos materiais e componentes principais listados anteriormente, também será
+necessário uma protoboard de 830 furos (eu prefiro os modelos que têm quatro
+linhas de energia separadas), ferramentas diversas (alicates de corte,
+decapadores de fio, alicates de bico fino, pinças) e, se disponível, um
+multímetro para verificar tensões:
+
+\begin{figure}[H]
+\centering
+\caption{Ferramentas úteis}
+\label{fig:}
+\vspace{-0.2cm}
+  \includegraphics[scale=1.0]{imagens/ferramentas.jpeg}
+\end{figure}
+
