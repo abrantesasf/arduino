@@ -20,16 +20,14 @@ Nosso Arduino Standalone terá, na protoboard, os seguintes grandes componentes:
 \end{enumerate}
 
 A organização desses grandes componentes na protoboard será aproximadamente a
-exibida na figura~\ref{fig:orgnizacao_componentes}, a seguir:
+exibida na Figura~\ref{fig:orgnizacao_componentes}, a seguir:
 
 \begin{figure}[H]
 \centering
 \caption{Organização geral dos componentes}
 \label{fig:orgnizacao_componentes}
 \vspace{-0.2cm}
-%\fbox{
   \includegraphics[scale=0.18]{imagens/protoboard3.jpg}
-%}\
 %\footnotesize{Fonte: xxx}
 \end{figure}
 
@@ -37,7 +35,7 @@ Os materiais e componentes necessários são os seguintes:
 
 \begin{itemize}
   \item \textbf{Alimentação}: a lista a seguir e a
-        figura~\ref{fig:comp-alimentacao} mostram os componentes que
+        Figura~\ref{fig:comp-alimentacao} mostram os componentes que
         utilizaremos para a alimentação do microcontrolador. Alguns itens são
         opcionais mas recomendados neste estágio inicial de seu aprendizado.
         \begin{itemize}[noitemsep]
@@ -74,7 +72,7 @@ Os materiais e componentes necessários são os seguintes:
         uma fonte que fornece corrente de até \qty{1}{\ampere}, mas você pode
         utilizar qualquer outra fonte de \qty{9}{\volt} que tiver disponível.},
         com um adaptador com borne de duas vias conforme a
-        figura~\ref{fig:fonte9v} (na página~\pageref{fig:fonte9v}), para
+        Figura~\ref{fig:fonte9v} (na página~\pageref{fig:fonte9v}), para
         conectar a fonte à protoboard.
         % www.newark.com/pro-elec/28-19355/9vdc-1a-regulated-ac-power-adapter/dp/62X7077
         Para mantermos nosso Arduino Standalone o mais portátil possível
@@ -84,28 +82,31 @@ Os materiais e componentes necessários são os seguintes:
         \caption{Alternativa para alimentação}
         \label{fig:fonte9v}
         \vspace{-0.2cm}
-        \includegraphics[scale=0.7]{imagens/alimentacao2.jpeg}
+        \includegraphics[scale=0.8]{imagens/alimentacao2.jpeg}
         %\footnotesize{Fonte: xxx}
         \end{figure}
-  \item \textbf{Microcontrolador}: precisaremos dos materiais ilustrados na
-        lista abaixo e na figura~\ref{fig:atmega328p} a seguir:
+  \item \textbf{Microcontrolador} e \textbf{circuito de reset}: precisaremos dos
+        materiais ilustrados na lista abaixo (e na Figura~\ref{fig:atmega328p}):
         \begin{itemize}
           \item 1 microcontrolador ATmega328P-PU (você pode retirar,
                 com muito cuidado, o microcontrolador de sua placa Arduino
                 atual, ou comprar um novo microcontrolador)
           \item 1 indutor axial de \qty{10}{\micro\henry}
+          \item 1 resistor de \qty{10}{\kilo\ohm}
+          \item 1 diodo 1N4148
           \item 3 capacitores cerâmicos de \qty{100}{\nano\farad}
+          \item 1 push button
         \begin{figure}[H]
         \centering
-        \caption{ATmega328P-PU}
+        \caption{ATmega328P-PU e circuito de reset}
         \label{fig:atmega328p}
         \vspace{-0.2cm}
-        \includegraphics[scale=0.9]{imagens/microcontrolador.jpeg}
+        \includegraphics[scale=1.0]{imagens/microcontrolador.jpeg}
         %\footnotesize{Fonte: xxx}
         \end{figure}
         \end{itemize}
-  \item \textbf{Clock}: para montar o circuito de clock precisamos dos materiais
-        a seguir (ilustrados na Figura~\ref{fig:clock}):
+  \item \textbf{Clock externo}: para montar o circuito de clock precisamos dos
+        materiais a seguir (ilustrados na Figura~\ref{fig:clock}):
         \begin{itemize}[noitemsep]
           \item 1 cristal oscilador de \qty{16}{\mega\hertz}
           \item 2 capacitores cerâmicos de \qty{22}{\pico\farad}
@@ -125,7 +126,7 @@ Além dos materiais e componentes principais listados anteriormente, também ser
 necessário uma protoboard de 830 furos (eu prefiro os modelos que têm quatro
 linhas de energia separadas), ferramentas diversas (alicates de corte,
 decapadores de fio, alicates de bico fino, pinças) e, se disponível, um
-multímetro para verificar tensões:
+multímetro para verificar tensão, corrente e resistência (Figura~\ref{fig:}):
 
 \begin{figure}[H]
 \centering
@@ -133,5 +134,27 @@ multímetro para verificar tensões:
 \label{fig:}
 \vspace{-0.2cm}
   \includegraphics[scale=1.0]{imagens/ferramentas.jpeg}
+\end{figure}
+
+Por fim precisamos de fios para as conexões na protoboard e aqui há uma regra
+clara: \textbf{não use} fios jumper flexíveis, como aqueles que são comumente
+utilizados em kits de Arduino para iniciantes. Fios jumper flexíveis são
+grandes, ficam sobrando e fazem uma tremenda confusão da protoboard. Para montar
+um Arduino Standalone de modo ``profissional'' precisamos usar \textbf{fios
+rígidos sólidos} para eletrônica, com bitola entre
+\qty{24}{AWG}\footnote{\ingles{American Wire Gauge} (AWG): é uma escala
+logarítmica americana para a identificação das bitolas de fios rígidos,
+especialmente os fios utilizados em eletrônica.} e \qty{22}{AWG} (entre
+\qty{0.511}{\mm} e \qty{0.644}{\mm}). Tenha sempre à mão um estoque de
+diferentes cores desses fios rígidos, conforme a Figura~\ref{fig:fios-rigidos}
+abaixo:
+
+\begin{figure}[H]
+\centering
+\caption{Fios rígidos 22 AWG}
+\label{fig:fios-rigidos}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.8]{imagens/cabos_rigidos3.jpeg}
+%\footnotesize{Fonte: xxx}
 \end{figure}
 
