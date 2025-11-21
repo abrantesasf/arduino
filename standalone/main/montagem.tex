@@ -1,0 +1,307 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Montagem}
+\label{sec:montagem}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Alimentação}
+\label{sec:montagem-alimentacao}
+
+A primeira cosia que montaremos na protoboard é o circuito regulador de tensão,
+que receberá os \qty{9}{\volt} da bateria e fornecerá \qty{5}{\volt} para
+alimentar o microcontrolador e demais componentes. O esquema desse circuito
+regulador está apresentado na Figura~\ref{fig:reg-tensao}:
+
+\begin{figure}[H]
+\centering
+\caption{Circuito regulador de tensão}
+\label{fig:reg-tensao}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.28]{imagens/regulador_tensao.png}
+\end{figure}
+
+O diodo D1 (1N4007) é uma proteção contra polaridade reversa. Se você
+inadvertidamente conectar a bateria ao contrário, o diodo bloqueará a corrente
+impedindo que ela flua para o regulador L7805CV e para o resto do circuito
+(potencialmente queimando os componentes). Esse diodo causa uma queda de tensão
+de até \qty{1.1}{\volt} dependendo do modelo e do fabricante\footnote{Note que
+devido à queda de tensão causada pelo diodo D1, a tensão indicada entre os
+capacitores C1 e C2 ($+$\qty{9}{\volt}) não é totalmente correta, deveria ser
+algo em torno de \qty{8}{\volt}. Em nome da simplicidade e para deixar a
+explicação mais didática, preferi deixar o circuito com essa pequena
+imprecisão.}.
+
+Os capacitores eletrolíticos de \qty{47}{\micro\farad} atuam fazendo
+filtragem de ruídos de baixa freqüência e como reservatório de energia
+(nessa função costumam ser chamados de \ingles{bulk capacitors}). O capacitor C1
+(na entrada) garante que a tensão na entrada do regulador L7805CV permaneça
+estável mesmo se a bateria tiver uma queda momentânea de tensão. Já o capacitor
+C4 (na saída) melhora a resposta a transientes de carga e evita que a tensão de
+\qty{5}{\volt} caia bruscamente (por exemplo, se um módulo que de repente puxa
+mais corrente).
+
+Os capacitores cerâmicos de \qty{100}{\nano\farad} atuam como capacitores de
+desacoplamen\-to e fazem filtragem de ruídos de alta freqüência. O capacitor C2
+(na entrada) filtra ruídos que venham da bateria, diodo ou fios. Já o capacitor
+C3 (na saída) filtra ruídos que venham do L7805CV ou da própria carga. Esses
+capacitores devem ser localizados o mais próximo possível do L7805CV e atual
+como um reservatório de energia local de resposta rápida.
+
+O L7805CV é um regulador linear de tensão que aceita de \qty{7}{\volt} a
+\qty{25}{\volt} na entrada, fornece \qty{5}{\volt} na saída, suporta correntes
+de até \qty{1.5}{\ampere}, e conta com mecanismos de proteção contra sobrecarga
+térmica (se ele esquentar demais ele ``desliga'') e contra curtos circuitos. Ele
+é um regulador excelente para projetos de Arduino Standalone e pequenos projetos
+de sistemas embarcados de iniciantes, mas tem uma desvantagem: ele precisa
+dissipar bastante calor e pode esquentar muito dependendo da carga que será
+consumida no circuito. O cálculo da potência (em Watt) que o regulador precisará
+dissipar é dado por:
+\begin{equation}
+  \label{eq:potencia}
+  P = (T_i - T_o) \times I\,,
+\end{equation}
+onde $P$ é potência em Watt, $T_i$ é a tensão na entrada, $T_o$ é a
+tensão na saída e $I$ é a corrente consumida em seu projeto (tensões em Volt e
+corrente em Ampere). Voltaremos a isso posteriormente.
+
+Inicie a montagem parafusando o clip da bateria no conector borne de duas vias,
+e coloque o borne na protoboard verificando corretamente se os polos positivos e
+negativos do borne estão alinhados com as trilhas vermelha e azul da protoboard
+(não coloque a bateria ainda). Depois coloque o diodo 1N4007 conectando a trilha
+positiva a uma linha da protoboard (lembre-se de que o diodo é polarizado, você
+precisa colocar o ânodo\footnote{Lembre-se de que o \textbf{ânodo} é o polo
+positivo e o \textbf{cátodo} é o polo negativo. O ânodo do diodo 1N4007 é o lado
+sem nenhuma marcação, e o cátodo é o lado que contém uma pequena faixa branca ou
+cinza.} do diodo na trilha positiva de \qty{9}{\volt} e o cátodo em uma linha da
+protoboard) conforme a Figura~\ref{fig:borne-diodo}:
+
+\begin{figure}[H]
+\centering
+\caption{Borne e diodo}
+\label{fig:borne-diodo}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.7]{imagens/alimentacao3.jpeg}
+\end{figure}
+
+Depois, com um fio rígido, faça uma conexão entre a trilha negativa a uma linha
+da protoboard ao lado do diodo, conforme a Figura~\ref{fig:diodo-gnd}:
+
+\begin{figure}[H]
+\centering
+\caption{Conexão do \ingles{ground} (GND)}
+\label{fig:diodo-gnd}
+\vspace{-0.2cm}
+  \includegraphics[scale=1.0]{imagens/alimentacao4.jpeg}
+\end{figure}
+
+O próximo passo é conectar os capacitores de entrada. Coloque o capacitor
+eletrolítico de \qty{47}{\micro\farad} na protoboard, conectando o ânodo do
+capacitor com o cátodo do diodo, e o cátodo do capacitor na mesma linha do GND
+da protoboard, conforme a Figura~\ref{fig:capacitor47entrada}. Cuidado ao fazer
+essa conexão pois capacitores eletrolíticos são polarizados e uma conexão
+invertida pode até causar uma pequena explosão (o cátodo do capacitor é indicado
+por uma faixa branca com sinais negativos).
+
+\begin{figure}[H]
+\centering
+\caption{Capacitor \qty{47}{\micro\farad} de entrada}
+\label{fig:capacitor47entrada}
+\vspace{-0.2cm}
+  \includegraphics[scale=1.0]{imagens/alimentacao5.jpeg}
+\end{figure}
+
+Agora devemos conectar o capacitor cerâmico de \qty{100}{\nano\farad} de
+entrada. Esse capacitor não é polarizado e pode ser colocado de qualquer lado,
+conforme a Figura~\ref{fig:capacitor100entrada}:
+
+\begin{figure}[H]
+\centering
+\caption{Capacitor \qty{100}{\nano\farad} de entrada}
+\label{fig:capacitor100entrada}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.9]{imagens/alimentacao6.jpeg}
+\end{figure}
+
+O resultado até aqui, com a colocação dos capacitores de entrada, está mostrado
+na Figura~\ref{fig:capent} (página~\pageref{fig:capent}).
+
+\begin{figure}[H]
+\centering
+\caption{Capacitores de entrada}
+\label{fig:capent}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.6]{imagens/alimentacao7.jpeg}
+\end{figure}
+
+O próximo passo é colocar o regulador L7805CV. Conforme o \ingles{datasheet} do
+meu regulador os pinos são dispostos como na Figura~\ref{fig:pinosl7805} (talvez
+você tenha que conferir a pinagem do modelo exato do regulador que você está
+utilizando; na dúvida consulte o \ingles{datasheet}).
+
+\begin{figure}[H]
+\centering
+\caption{Pinos do L7805CV}
+\label{fig:pinosl7805}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.4]{imagens/alimentacao20.png}
+\end{figure}
+
+Para a colocação do L7805CV na protoboard: alinhe o pino de \ingles{input} do
+regulador com a linha de \qty{9}{\volt}, e o pino de \ingles{ground} do
+regulador com a linha GND, conforme a Figura~\ref{fig:reguladorproto}:
+
+\begin{figure}[H]
+\centering
+\caption{Regulador L7805CV}
+\label{fig:reguladorproto}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.9]{imagens/alimentacao8.jpeg}
+\end{figure}
+
+Para termos mais espaço para trabalhar, vamos conectar o GND e a saída de
+\qty{5}{\volt} do regulador no outro lado da protoboard, conforme a
+Figura~\ref{fig:extendergnd5v}:
+
+\begin{figure}[H]
+\centering
+\caption{GND e \qty{5}{\volt}}
+\label{fig:extendergnd5v}
+\vspace{-0.2cm}
+  \includegraphics[scale=1.0]{imagens/alimentacao9.jpeg}
+\end{figure}
+
+Coloque agora mais um capacitor cerâmico de \qty{100}{\nano\farad} entre o GND e
+o \qty{5}{\volt}, conforme a Figura~\ref{fig:capacitor100saida}. Idealmente esse
+capacitor deveria ficar o mais próximo possível do regulador de tensão mas pela
+falta de espaço na protoboard vamos deixá-lo do outro lado mesmo.
+
+\begin{figure}[H]
+\centering
+\caption{Capacitor de \qty{100}{\nano\farad} da saída}
+\label{fig:capacitor100saida}
+\vspace{-0.2cm}
+  \includegraphics[scale=1.1]{imagens/alimentacao10.jpeg}
+\end{figure}
+
+O segundo capacitor eletrolítico de \qty{47}{\micro\farad} deve ser colocado
+agora. Alinhe o ânodo do capacitor com a linha de \qty{5}{\volt} e o cátodo do
+capacitor com a linha de GND, conforme a Figura~\ref{fig:capacitor47saida}:
+
+\begin{figure}[H]
+\centering
+\caption{Capacitor \qty{47}{\micro\farad} de saída}
+\label{fig:capacitor47saida}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.9]{imagens/alimentacao11.jpeg}
+\end{figure}
+
+Agora use fios rígidos para conectar a saída de \qty{5}{\volt} e o GND do
+regulador de tensão às trilhas vermelha e azul da protoboard, conforme a
+Figura~\ref{fig:alimentacao5v} e a Figura~\ref{fig:alimentacao5vb}:
+
+\begin{figure}[H]
+\centering
+\caption{Alimentação de \qty{5}{\volt} da protoboard}
+\label{fig:alimentacao5v}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.9]{imagens/alimentacao12.jpeg}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{Alimentação de \qty{5}{\volt} da protoboard}
+\label{fig:alimentacao5vb}
+\vspace{-0.2cm}
+  \includegraphics[scale=1.0]{imagens/alimentacao13.jpeg}
+\end{figure}
+
+Coloque a bateria e verifique se as conexões estão corretas com um multímetro:
+ao medir a tensão na trilha inferior da protoboard, você deve obter
+\qty{5}{\volt} conforme a Figura~\ref{fig:verificacao5v} (a tensão medida, de
+\qty{4.99}{\volt} está dentro da margem de tolerância do regulador).
+
+\begin{figure}[H]
+\centering
+\caption{Verificação da tensão}
+\label{fig:verificacao5v}
+\vspace{-0.2cm}
+  \includegraphics[scale=1.0]{imagens/alimentacao15.jpeg}
+\end{figure}
+
+Agora já temos o circuito regulador de tensão montado e funcionando
+perfeitamente. Um pequeno inconveniente desse circuito é que não há nenhuma
+indicação visual de que o circuito está energizado. Assim, como um refinamento
+opcional, vamos colocar um LED indicativo de que o circuito está
+energizado e ligado. Coloque o ânodo do LED diretamente na trilha de
+\qty{9}{\volt} da protoboard e o cátodo do LED em uma linha vazia conforme a
+Figura~\ref{fig:ledind}:
+
+\begin{figure}[H]
+\centering
+\caption{LED indicativo}
+\label{fig:ledind}
+\vspace{-0.2cm}
+  \includegraphics[scale=1.0]{imagens/alimentacao16.jpeg}
+\end{figure}
+
+Agora vamos colocar o resistor de \qty{680}{\ohm} entre o cátodo do LED e a
+trilha de GND da protoboard, conforme a Figura~\ref{fig:resled}:
+
+\begin{figure}[H]
+\centering
+\caption{Resistor do LED}
+\label{fig:resled}
+\vspace{-0.2cm}
+  \includegraphics[scale=1.0]{imagens/alimentacao17.jpeg}
+\end{figure}
+
+Esse resistor serve para limitar a corrente que percorrerá o LED que, segundo as
+especificações do \ingles{datasheet}, suporta correntes de até
+\qty{20}{\milli\ampere} com uma \ingles{voltage forward} de \qty{2.1}{\volt}. A
+corrente que percorre o LED será então de:
+\begin{equation}
+  \label{eq:corrente-led}
+  I = \cfrac{V}{R} = \cfrac{\qty{9.0} -\ \qty{2.1}{}}{680} =
+  \cfrac{\qty{6.9}{}}{680} \approx \qty{10}{\milli\ampere}
+\end{equation}
+
+A corrente de \qty{10}{\milli\ampere} é segura para o LED mas representa um
+consumo de bateria a mais para o projeto (uma bateria alcalina comum tem
+capacidade entre \qtyrange{400}{600}{\milli\ampere\hour} e o LED iria esgotar a
+bateria entre \qtyrange{40}{60}{\hour}). Se você não precisa ou não quer esse
+consumo extra, você pode remover o LED completamente. Particularmente eu gosto
+de uma indicação visual de que o circuito está energizado. Uma alternativa para
+diminuir o consumo da bateria é colocar resistores maiores para diminuir a
+corrente que percorre esse LED.
+
+O circuito de alimentação está quase terminado. Coloque a bateria e verifique se
+o LED está funcionando conforme a Figura~\ref{fig:regled}:
+
+\begin{figure}[H]
+\centering
+\caption{Regulador com LED indicativo}
+\label{fig:regled}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.8]{imagens/alimentacao18.jpeg}
+\end{figure}
+
+Por fim, como estou usando uma protoboard com quatro trilhas de alimentação
+independente, conectei as trilhas onde quero disponibilizar \qty{5}{\volt} e
+coloquei pequenas etiquetas para identificar as tensões. A protoboard com o
+circuito de alimentação finalizado está mostrada na
+Figura~\ref{fig:alimentacaofim}.
+
+\begin{figure}[H]
+\centering
+\caption{Circuito de alimentação finalizado}
+\label{fig:alimentacaofim}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.8]{imagens/alimentacao19.jpeg}
+\end{figure}
+
+Ainda é possível fazer algumas outras pequenas melhorias no circuito de
+alimentação como, por exemplo, colocar um diodo adicional entre os pinos de
+\ingles{input} e \ingles{output} do regulador (para proteger contra tensão
+reversa) ou acrescentar outros diodos em série com o diodo D1 para diminuir a
+tensão que o regulador recebe. Entretanto essas melhorias são opcionais para
+esse nosso pequeno projeto e, por isso, não serão feitas.
