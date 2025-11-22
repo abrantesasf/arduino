@@ -305,3 +305,414 @@ alimentação como, por exemplo, colocar um diodo adicional entre os pinos de
 reversa) ou acrescentar outros diodos em série com o diodo D1 para diminuir a
 tensão que o regulador recebe. Entretanto essas melhorias são opcionais para
 esse nosso pequeno projeto e, por isso, não serão feitas.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Microcontrolador e reset}
+\label{sec:montagem-microcont}
+
+O próximo passo é fazer a montagem do microcontrolador ATmega328P-PU e do
+circuito de reset (que faz o microcontrolador reiniciar). Uma das primeiras
+coisas que você deve ter em mente é que os números dos pinos do Arduino são
+completamente diferentes dos números reais dos pinos do microcontrolador (o
+Arduino abstrai muito da complexidade do hardware e esconde as configurações e
+nomes verdadeiros dos componentes do microcontrolador). Em qualquer projeto de
+Arduino Standalone você precisa ter sempre à mão um mapeamento entre os pinos do
+microcontrolador e os nomes ``bonitinhos'' que o Arduino utiliza. A
+Figura~\ref{fig:pinagem} traz esse mapeamento:
+
+\begin{figure}[H]
+\centering
+\caption{Mapeamento ATmega328P $\times$ Arduino}
+\label{fig:pinagem}
+\vspace{-0.2cm}
+  \makebox[\textwidth][c]{%
+    \includegraphics[scale=0.28]{imagens/pinagem_atmega_arduino.png}%
+  }
+\end{figure}
+
+Uma explicação mais detalhada sobre a pinagem do ATmega328P é necessária. O
+microcontrolador tem $28$ pinos físicos, $14$ de cada lado, numerados
+fisicamente de \qtyrange{1}{28}{}. O pino $1$ é identificado por estar do lado
+esquerdo de um entalhe em forma de meia-lua em uma das extremidades do
+microcontrolador.
+
+Esse Microcontrolador tem três portas de I/O\footnote{I/O:
+\ingles{input}/\ingles{output}; entrada/saída.} de propósito geral que são
+chamadas de \textbf{Port B}, \textbf{Port C} e \textbf{Port D}. Cada uma dessas
+portas pode ter até o máximo de oito pinos de I/O. Esses pinos são genericamente
+chamados de \ingles{General-Purpose I/O} (GPIO). Por exemplo: a Port C tem $7$
+pinos, chamados de PC0 até PC6, que estão conectados aos pinos físicos $1$ e
+$23$--$28$ do microcontrolador (pinos de cor amarela na
+Figura~\ref{fig:pinagem}). Note também que cada um desses pinos pode exercer
+mais de uma função no microcontrolador, por exemplo: o pino PC5 pode exercer
+três funções diferentes, ADC5, SCL, PCINT13 (identificadas na pinagem do
+microcontrolador, logo ao lado do nome do pino). Essa nomenclatura do
+microcontrolador é mascarada pelos nomes utilizados no Arduino, de forma que o
+pino PC5 do microcontrolador é conhecido por pino A5 no Arduino; o pino PD5 do
+microcontrolador é conhecido por pino D5 no Arduino; o pino PB4 do
+microcontrolador é conhecido por pino D12 no Arduino; e assim por diante. A
+Figura~\ref{fig:pinagem} identifica todo o mapeamento dos pinos reais do
+ATmega328 com os nomes utilizados pelo Arduino. Note também que mesmo na
+nomenclatura do Arduino os pinos podem exercer mais de uma função, por exemplo:
+o pino A5 do Arduino também pode ser utilizado como pino D19 ou como pino
+SCL\footnote{Um dos pinos utilizados em comunicação \ingles{Inter-Integrated
+Circuit} (I$^2$C)}.
+
+O estudo detalhado de cada um desses pinos e das funções que eles podem exercer
+está fora do escopo deste artigo mas é necessário que você tenha a
+Figura~\ref{fig:pinagem} por perto ao montar circuitos de Arduino Standalone
+para que você consiga substituir as conexões feitas diretamente no Arduino pelas
+conexões a serem feitas diretamente no microcontrolador.
+
+Para começar a montagem do microcontrolador, coloque-o na protoboard,
+identifique o pino $1$ e faça a ligação do VCC (que fornece \qty{5}{\volt} ao
+ATmega328P) no pino $7$, e do GND no pino $8$, conforme demonstrado na
+Figura~\ref{fig:microcont-vccgnd}. Tenha \textbf{muito cuidado} para não errar
+as conexões aos pinos do microcontrolador!
+
+\begin{figure}[H]
+\centering
+\caption{VCC e GND}
+\label{fig:microcont-vccgnd}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.8]{imagens/microcontrolador1.jpeg}
+\end{figure}
+
+Agora coloque um capacitor cerâmico de \qty{100}{\nano\farad} entre o pino $7$
+(VCC) e o GND, conforme a Figura~\ref{fig:microcont-capvcc}. Isso é um
+\textbf{capacitor de desacoplamento} e é muito importante para a estabilidade do
+circuito. Ele realiza duas funções importantes para que o ATmega328P não trave
+ou reinicialize sozinho: a) reservatório local de energia para evitar quedas de
+tensão quando a comutação dos transístores do microcontrolador exigir picos
+rápidos de corrente; e b) filtragem de ruídos de alta freqüência gerados por
+motores, relés ou outros componentes, pois o capacitor oferece um caminho fácil
+para o ruído ir direto para GND, desacoplando o ruído da alimentação principal
+do microcontrolador.
+
+\begin{figure}[H]
+\centering
+\caption{Capacitor entre VCC e GND}
+\label{fig:microcont-capvcc}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.8]{imagens/microcontrolador2.jpeg}
+\end{figure}
+
+O próximo passo é colocar um indutor axial de \qty{10}{\micro\henry} entre a
+linha de \qty{5}{\volt} e o pino AVCC (pino $20$), e um capacitor cerâmico de
+\qty{100}{\nano\farad} entre o pino AVCC (pino $20$) e o GND, conforme a
+Figura~\ref{fig:microcont-avcc}:
+
+\begin{figure}[H]
+\centering
+\caption{Conexão do AVCC}
+\label{fig:microcont-avcc}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.38]{imagens/microcontrolador4b.png}
+\end{figure}
+
+Por que esse conjunto de indutor mais capacitor é necessário? O pino AVCC é a
+fonte de tensão para o conversor analógico-digital (ADC) do ATmega328 (que lê
+tensões analógicas nos pinos PC0 até PC5), e esse conversor precisa de uma
+tensão de referência perfeitamente estável para fazer as leituras e comparar os
+sinais. O conjunto indutor mais capacitor forma um \textbf{Filtro LC} (Filtro
+Indutor-Capacitor) cuja função é proteger a exatidão das leituras analógicas. O
+indutor atua como um filtro passa-baixa e age como uma entrada seletiva: para
+corrente contínua o indutor é praticamente um fio comum, e deixa passar os
+\qty{5}{\volt} para alimentar o ADC; para ruídos de alta freqüência o indutor
+apresenta alta impedância (resistência) e ``bloqueia'' as oscilações rápidas e
+ruídos gerados por chaveamento digital ou outras fontes. O capacitor ajuda o
+indutor e ``engole'' qualquer resíduo que o indutor deixar passar. O resultado é
+que a tensão no pino AVCC é uma energia ``limpa'' e estável.
+
+Agora faça a conexão de um outro capacitor de \qty{100}{\nano\farad} entre o
+pino AREF (pino 21) e o GND, conforme exibido na
+Figura~\ref{fig:microcont-caparef}:
+
+\begin{figure}[H]
+\centering
+\caption{Capacitor para AREF}
+\label{fig:microcont-caparef}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.8]{imagens/microcontrolador5.jpeg}
+\end{figure}
+
+Esse capacitor no AREF merece uma explicação um pouco mais detalhada. O pino
+AREF é a referência de tensão analógica para as leituras do conversor
+analógico-digital do microcontrolador. Essa tensão de referência é como uma
+``régua'' a partir da qual as tensões analógicas são medidas: o ADC funciona
+comparando a tensão de entrada em um pino analógico com a tensão de referência
+em AREF. Essa tensão de referência pode ser configurada para:
+
+\begin{itemize}
+  \item \textbf{AREF Externo}: nessa configuração o microcontrolador exige que
+        você conecte ao pino AREF uma fonte de tensão de comparação externa. Se
+        você não conectar uma tensão de referência externa as leituras
+        analógicas serão incorretas. Você usaria essa configuração se, por
+        exemplo, você está utilizando um sensor que trabalha em
+        \qty{3.3}{\volt}: nesse caso você deve conectar uma tensão de
+        \qty{3.3}{\volt} em AREF para que essa tensão seja a referência de
+        comparação do ADC com as leituras feitas a partir do
+        sensor. \textbf{Atenção:} o uso de AREF externo implica em certos
+        cuidados no código, em especial você não pode fazer nenhuma leitura
+        analógica sem antes informar e configurar o microcontrolador para
+        utilizar corretamente essa tensão de referência externa. Note que mesmo
+        que você utilize uma referência externa de tensão o capacitor de
+        \qty{100}{\nano\farad} ainda é necessário entre AREF e GND.
+  \item \textbf{AREF Interno em \qty{1.1}{\volt}}: nessa configuração você não
+        precisa conectar nenhuma tensão de referência no pino AREF, o
+        microcontrolador utilizará uma tensão interna de \qty{1.1}{\volt} como
+        referência analógica. Essa é uma situação não muito comum pois a maioria
+        dos sensores analógicos utilizados trabalha com tensões de
+        \qty{5}{\volt} ou \qty{3.3}{\volt}. O capacitor entre AREF e GND
+        continua sendo necessário.
+  \item \textbf{AREF em AVCC}: nessa configuração estamos dizendo ao
+        microcontrolador para usar como tensão de referência analógica a tensão
+        de entrada no pino AVCC (que conectamos aos \qty{5}{\volt} filtrados e
+        limpos com o Filtro LC). O capacitor entre AREF e GND continua sendo
+        necessário.
+\end{itemize}
+
+Por padrão o ATmega328P vem configurado de fábrica para usar ``AREF Externo'',
+ou seja, nós somos obrigados a conectar uma tensão de referência no pino
+AREF. Mas por que não fizemos isso e só conectamos um capacitor cerâmico de
+\qty{100}{\nano\farad} nesse pino? Esse é um outro exemplo de como o Arduino
+esconde as complexidades do hardware e do microcontrolador para simplificar um
+pouco as coisas para usuários iniciantes: ao compilar um código pela IDE do
+Arduino, usando as funções e bibliotecas do próprio Arduino, o Arduino
+automaticamente altera as configurações do ATmega328P para usar ``AREF em AVCC''
+e ajusta outras coisas para que o ADC utilize como tensão de referência os
+\qty{5}{\volt} filtrados e limpos conectados ao pino AVCC\footnote{Se você esta
+programando o microcontrolador em C puro (AVR C), sem usar as bibliotecas do
+Arduino, você é obrigado a ajustar manualmente em seu código a configuração do
+AREF desejada e a fazer alguns outros ajustes para que o conversor
+analógico-digital funcione corretamente. Isso é feito alterando-se a
+configuração de alguns registradores do microcontrolador, mas isso foge ao
+escopo deste artigo.}. O capacitor conectado entre AREF e GND ajuda a
+estabilizar ainda mais a tensão de referência para o conversor
+analógico-digital.
+
+Ao usar ``AREF em AVCC'' não devemos conectar mais nenhuma outra fonte de tensão
+no pino AREF ($21$), apenas o capacitor de filtragem, pois a tensão de
+comparação será fornecida apenas por AVCC.
+
+O próximo passo na montagem do microcontrolador é conectar o pino GND ($22$) à
+linha de GND da protoboard, conforme a Figura~\ref{fig:microcont-gndadc}. O pino
+de GND ($22$) é conectado internamento ao pino de GND ($8$), mas ele fica
+disponível para o ADC e, às vezes, é encontrado com a identificação AGND.
+
+\begin{figure}[H]
+\centering
+\caption{GND para ADC}
+\label{fig:microcont-gndadc}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.7]{imagens/microcontrolador6.jpeg}
+\end{figure}
+
+O pino RESET ($1$) do microcontrolador deve ser conectado, através de um
+resistor de \qty{10}{\kilo\ohm}, à trilha de \qty{5}{\volt} da protoboard,
+conforme a Figura~\ref{fig:microcont-pinoreset}. Esse pino funciona da seguinte
+maneira: quando ele está em nível lógico ``HIGH'' (\qty{5}{\volt}) o
+microcontrolador está funcionando normalmente; mas se ele for colocado em nível
+lógico ``LOW'' (\qty{0}{\volt}) o microcontrolador é reiniciado.
+
+\begin{figure}[H]
+\centering
+\caption{Pino de RESET}
+\label{fig:microcont-pinoreset}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.7]{imagens/microcontrolador7.jpeg}
+\end{figure}
+
+Nesse momento já temos todas as conexões básicas de alimentação do
+microcontrolador prontas. O próximo passo agora é montar um circuito de reset
+para o microcontrolador pois para podermos gravar um novo programa o
+microcontrolador deve ser reiniciado. Vamos montar o circuito de RESET.
+
+Coloque um diodo 1N4148 conectado entre o pino RESET ($1$) e a linha de
+\qty{5}{\volt} da protoboard da seguinte maneira: o cátodo do diodo deve ficar
+conectado aos \qty{5}{\volt} e o ânodo do diodo deve ficar conectado ao pino de
+RESET ($1$), ou seja: o diodo está ``invertido'' e não deixa passar corrente da
+alimentação para o pino de RESET (a corrente obrigatoriamente passa pelo
+resistor). Veja a Figura~\ref{fig:microcont-resetdiodo} para entender como esse
+diodo deve ser conectado.
+
+\begin{figure}[H]
+\centering
+\caption{Circuito de reset: diodo}
+\label{fig:microcont-resetdiodo}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.7]{imagens/microcontrolador8.jpeg}
+\end{figure}
+
+Qual o propósito desse diodo? Bem, nesse momento ele não tem função praticamente
+nenhuma, ele está tecnicamente ``inútil''\footnote{Exceto, talvez, por uma
+pequena proteção contra descarga eletrostática se alguém tocar no botão com o
+dedo carregado de eletricidade estática: nesse caso o diodo ajuda a desviar
+essa energia para a fonte ao invés de danificar a porta de RESET do
+microcontrolador.} e poderia até ser removido do circuito sem grandes
+prejuízos. Mesmo assim é uma boa prática deixar esse diodo já conectado. O diodo
+1N4148 é conhecido como \textbf{diodo de sinal} ou diodo de chaveamento. Isso
+significa que ele é extremamente veloz ao passar do estado ``bloqueando'' para o
+estado ``conduzindo'' energia. Ele está aí por um motivo de proteção futura se
+resolvermos usar um adaptador FTDI/USB-Serial para a programação do
+microcontrolador.
+
+Para programar o microcontrolador, em muitos projetos de Arduino Standalone, nós
+usamos um adaptador FTDI/USB-Serial. Para que a IDE do Arduino consiga enviar o
+código automaticamente, ela precisa reiniciar o microcontrolador. Isso é feito
+ligando-se o adaptador ao pino RESET através de um capacitor de
+\qty{100}{\nano\farad} (que não está na protoboard, mas costuma ser adicionado
+depois se realmente formos usar o adaptador FTDI/USB-Serial).
+
+Mas um problema que ocorre ao usar esse adaptador é que ele força a tensão no
+pino de RESET ir para \qty{0}{\volt}, reiniciando o microcontrolador, mas,
+quando a tensão volta para os \qty{5}{\volt} da linha de tensão da protoboard, a
+tensão armazenada no capacitor se soma à tensão da linha de alimentação. Isso
+pode gerar um pico de tensão momentâneo no pino RESET que pode chegar até
+\qty{10}{\volt}, causando efeitos inesperados ou prejudiciais no
+ATmega328P. O diodo 1N4148 age como uma válvula de escape (chamado de
+\textbf{clamping diode}) e funciona do seguinte modo: se a tensão no pino RESET
+subir acima de aproximadamente \qty{5.7}{\volt}, ele começa a conduzir e desvia
+esse excesso de tensão para a linha de \qty{5}{\volt} da protoboard, mantendo o
+pino se RESET seguro.
+
+Mesmo que o diodo 1N4148 não exerça função praticamente nenhuma em nosso projeto
+no momento, se adicionarmos um adaptador FTDI/USB-Serial para a programação do
+microcontrolador no futuro o circuito de RESET já estará protegido e, por isso,
+é melhor deixar esse diodo já conectado.
+
+Para finalizarmos o circuito de reset temos que colocar um botão na protoboard
+que, ao ser pressionado, coloca o pino de RESET ($1$) em ``LOW'' e faz o
+microcontrolador se reiniciar. Para isso coloque um botão ao lado do
+microcontrolador, e ligue o botão no pino de RESET ($1$) e ao GND, conforme a
+Figura~\ref{fig:microcont-resetbotao}. Esse é o circuito de reset.
+
+\begin{figure}[H]
+\centering
+\caption{Circuito de reset: botão}
+\label{fig:microcont-resetbotao}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.7]{imagens/microcontrolador9.jpeg}
+\end{figure}
+
+Nesse momento nosso microcontrolador já está totalmente montado e pronto: se
+quiséssemos já poderíamos usar o Arduino Standalone sem problema
+algum. Entretanto, nessa montagem, somos forçados a utilizar o clock interno do
+microcontrolador, que não é tão veloz quando comparado a um clock
+externo. Vamos portanto acrescentar um circuito de clock externo ao nosso
+Arduino Standalone.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Clock externo}
+\label{sec:montagem-clock}
+
+Acrescentar um clock externo ao nosso Arduino Standalone não é difícil. Em
+primeiro lugar vamos colocar um resistor de \qty{1}{\mega\ohm} entre os pinos
+$9$ e $10$ do microcontrolador (pinos XTAL1 e XTAL2), conforme a
+Figura~\ref{fig:microcont-clockresistor}.
+
+\begin{figure}[H]
+\centering
+\caption{Clock externo: resistor}
+\label{fig:microcont-clockresistor}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.6]{imagens/clock1.jpeg}
+\end{figure}
+
+De modo simplificado esse resistor ajuda o cristal oscilador a começar a
+funcionar. A conexão é difícil de fazer na protoboard pois o resistor não cabe
+entre os pinos $9$ e $10$: a solução é dobrar os pinos de contato e deixar o
+resistor na diagonal.
+
+Coloque dois capacitores cerâmicos de \qty{22}{\pico\farad} para conectar os
+pinos $9$ e $10$ ao GND da protoboard, conforme a
+Figura~\ref{fig:microcont-clockcapacitores}.
+
+\begin{figure}[H]
+\centering
+\caption{Clock externo: capacitores}
+\label{fig:microcont-clockcapacitores}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.7]{imagens/clock3.jpeg}
+\end{figure}
+
+Também de modo simplificado a função desses capacitores é filtrar ruídos
+indesejados e garantir que a oscilação do cristal gere uma onda senoidal limpa e
+na freqüência correta.
+
+Por fim, coloque um cristal oscilador de \qty{16}{\mega\hertz} entre os pinos
+$9$ e $10$ (XTAL1 e XTAL2), conforme a
+Figura~\ref{fig:microcont-clockcristal}. A colocação do cristal também é difícil
+pois ele não cabe adequadamente na protoboard e precisa ser colocado de lado.
+
+\begin{figure}[H]
+\centering
+\caption{Clock externo: cristal}
+\label{fig:microcont-clockcristal}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.7]{imagens/clock4.jpeg}
+\end{figure}
+
+Agora sim, de fato, terminamos a montagem do microcontrolador, com o circuito de
+reset e o clock externo. Você deve ter algo semelhante à Figura
+
+\begin{figure}[H]
+\centering
+\caption{Microcontrolador, reset e clock}
+\label{fig:microcont-reset-clock}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.7]{imagens/clock5.jpeg}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Montagem completa}
+\label{sec:montagem-completa}
+
+Se você seguiu à risca as instruções de montagem, seu Arduino Standalone deve
+se parecer com a Figura~\ref{fig:ardstand-completo}, abaixo:
+
+\begin{figure}[H]
+\centering
+\caption{Arduino Standalone completo}
+\label{fig:ardstand-completo}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.9]{imagens/standalone_pronto.jpeg}
+\end{figure}
+
+Para referência, as figuras abaixo trazem todos os diagramas esquemáticos de
+nosso Arduino Standalone.
+
+\begin{figure}[H]
+\centering
+\caption{Esquemático: regulador de tensão}
+\label{fig:esq-reg-ten}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.28]{imagens/esquematico_regulador_tensao.png}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{Esquemático: microcontrolador}
+\label{fig:esq-micro}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.6]{imagens/esquematico_atmega.png}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{Esquemático: circuito de reset}
+\label{fig:esq-reset}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.3]{imagens/esquematico_reset.png}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{Esquemático: clock externo}
+\label{fig:esq-clock}
+\vspace{-0.2cm}
+  \includegraphics[scale=0.3]{imagens/esquematico_clock.png}
+\end{figure}
