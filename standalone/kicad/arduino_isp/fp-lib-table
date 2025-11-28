@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "logo_computacao_raiz")(type "KiCad")(uri "/home/abrantesasf/cofre_celular/kicad/biblioteca/logo/logo_computacao_raiz.pretty")(options "")(descr ""))
+)
